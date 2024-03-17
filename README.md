@@ -1,55 +1,31 @@
 # Poker Hands Dataset
 
-Simple scripts to extract, clean and browse the IRC Poker Database. Note here only hold 'em hands are included. Most (over 95%) hands are dropped either because they're not hold 'em or because of lack of features.
+Simple scripts to extract and browse the IRC Poker Database. Note here only hold'em hands are included. Most (over 95%) hands are dropped either because they're not hold'em or because of data corruption.
 
-## Data Preparation
+## Usage
 
-Run the following codes in order:
-
-```bash
-wget http://poker.cs.ualberta.ca/IRC/IRCdata.tgz  # download the database (-> IRCdata.tgz)
-tar -xvf IRCdata.tgz                              # unzip the tgz file (-> IRCdata)
-python3 extract.py                                # extract data (-> hands.json)
-python3 clean.py                                  # drop invalid hand data (-> hands_valid.json)
-```
-
-Eventually there're 10,233,955 hands in `hands.json` and 437,862 in `hands_valid.json` after cleaning.
-
-## Data Inspection
-
-You may run the following code to inspect hands in their original order. Any time you'd like to stop browsing, you can just use `Ctrl+C` to interrupt the process.
+Setting up the environment:
 
 ```bash
-python3 browse.py                                 # print hands in a formatted way
+python -m venv .venv
+source .venv/bin/activate 
+pip install -r requirements.txt
 ```
 
-The script lists extracted hands history as below.
+Download the compressed file from University of Alberta website, and extract all hold'em hands data into `hands.json`:
 
-    ############################################################
-       time : 199612            id : 2093
-      board : ['Qd', '6s', 'Td', 'Qc', 'Jh']
-       pots : [(2, 60), (2, 60), (2, 60), (2, 60)]
-    players : 
-                             Tiger (#1)                         
-    {'action': 30,
-     'bankroll': 2922,
-     'bets': [{'actions': ['B', 'r'], 'stage': 'p'},
-              {'actions': ['k'], 'stage': 'f'},
-              {'actions': ['k'], 'stage': 't'},
-              {'actions': ['k'], 'stage': 'r'}],
-     'pocket_cards': ['9s', 'Ac'],
-     'winnings': 30}
-    · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
-                            jvegas2 (#2)                        
-    {'action': 30,
-     'bankroll': 139401,
-     'bets': [{'actions': ['B', 'c'], 'stage': 'p'},
-              {'actions': ['k'], 'stage': 'f'},
-              {'actions': ['k'], 'stage': 't'},
-              {'actions': ['k'], 'stage': 'r'}],
-     'pocket_cards': ['9c', 'As'],
-     'winnings': 30}
-    ############################################################
+```bash
+curl -O http://poker.cs.ualberta.ca/IRC/IRCdata.tgz  # or wget, whichever works on your OS
+python3 src/extract.py
+```
+
+There will be 9,478,019 hands extracted in total (after roughly 9 hours of running). Majority of hand data will be skipped due to either invalid game type or corrupted records.
+
+Browse the extracted hands in console:
+
+```bash
+python3 src/browse.py
+```
 
 ## References
 
