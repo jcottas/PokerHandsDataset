@@ -355,7 +355,11 @@ class PokerHandsExtractor:
             split = lambda x: x.decode().strip().split()
             if not name_group.endswith(".tgz"):
                 return []
-            fname_group = name_group.rsplit(SLASH, 1)[1]
+            parts = name_group.rsplit(SLASH, 1)
+            if len(parts) < 2:
+                logger.error(f"Could not split {name_group} into two parts.")
+            else:
+                fname_group = parts[1]
             game_type = fname_group.split(".", 1)[0]
             if game_type not in VALID_GAME_TYPES:
                 return []
