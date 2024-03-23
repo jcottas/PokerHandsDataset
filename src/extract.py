@@ -371,6 +371,7 @@ class PokerHandsExtractor:
             logger.info(f"Extracting {fname_group}")
             with TarFile.open(fileobj=file_group) as tar_group:
                 hands = []
+                fname_group = ""
                 try:
                     # extract files
                     file_hdb = file_hroster = None
